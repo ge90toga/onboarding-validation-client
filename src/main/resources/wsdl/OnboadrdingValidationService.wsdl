@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://onboardingservice.soacourse.unsw.edu.au" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="OnboadrdingValidationService"
+	targetNamespace="http://onboardingservice.soacourse.unsw.edu.au">
+	<wsdl:types>
+		<xsd:schema targetNamespace="http://onboardingservice.soacourse.unsw.edu.au">
+			<xsd:element name="ValidateAddressRequest">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="houseNumber" nillable="true" type="xsd:string" />
+						<xsd:element name="roadName" nillable="false" type="xsd:string" />
+						<xsd:element name="roadType" nillable="true" type="xsd:string" />
+						<xsd:element name="suburb" nillable="false" type="xsd:string" />
+						<xsd:element name="postCode" nillable="false" type="xsd:int" />
+						<xsd:element name="state" nillable="false" type="xsd:string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="ValidateAddressResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="councilName" nillable="false" type="xsd:string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="ValidateDriverLicenseRequest">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="driverLicenseNumber" nillable="false"
+							type="xsd:string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="ValidateDriverLicenseResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="driverName" nillable="false" type="xsd:string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:complexType name="ServiceFaultType">
+				<xsd:sequence>
+					<xsd:element name="errcode" type="xsd:string"></xsd:element>
+					<xsd:element name="errtext" type="xsd:string"></xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:element name="ValidateAddressFault" type="tns:ServiceFaultType"></xsd:element>
+			<xsd:element name="ValidateDriverLicenseFault" type="tns:ServiceFaultType"></xsd:element>
+		</xsd:schema>
+	</wsdl:types>
+	<wsdl:message name="ValidateAddressRequestMsg">
+		<wsdl:part name="parameters" element="tns:ValidateAddressRequest" />
+	</wsdl:message>
+	<wsdl:message name="ValidateAddressResponseMsg">
+		<wsdl:part name="parameters" element="tns:ValidateAddressResponse" />
+	</wsdl:message>
+	<wsdl:message name="ValidateAddressFaultMsg">
+		<wsdl:part name="parameters" element="tns:ValidateAddressFault" />
+	</wsdl:message>
+	<wsdl:message name="ValidateDriverLicenseRequestMsg">
+		<wsdl:part name="parameters" element="tns:ValidateDriverLicenseRequest" />
+	</wsdl:message>
+	<wsdl:message name="ValidateDriverLicenseResponseMsg">
+		<wsdl:part name="parameters" element="tns:ValidateDriverLicenseResponse" />
+	</wsdl:message>
+	<wsdl:message name="ValidateDriverLicenseFaultMsg">
+		<wsdl:part name="parameters" element="tns:ValidateDriverLicenseFault" />
+	</wsdl:message>
+	<wsdl:portType name="OnboadrdingValidationService">
+		<wsdl:operation name="ValidateAddress">
+			<wsdl:input message="tns:ValidateAddressRequestMsg" />
+			<wsdl:output message="tns:ValidateAddressResponseMsg" />
+			<wsdl:fault name="ValidateAddressFault" message="tns:ValidateAddressFaultMsg" />
+		</wsdl:operation>
+		<wsdl:operation name="ValidateDriverLicense">
+			<wsdl:input message="tns:ValidateDriverLicenseRequestMsg" />
+			<wsdl:output message="tns:ValidateDriverLicenseResponseMsg" />
+			<wsdl:fault name="ValidateDriverLicenseFault" message="tns:ValidateDriverLicenseFaultMsg" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="OnboadrdingValidationServiceSOAP"
+		type="tns:OnboadrdingValidationService">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="ValidateAddress">
+			<soap:operation
+				soapAction="http://onboardingservice.soacourse.unsw.edu.au/ValidateAddress" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="ValidateAddressFault">
+				<soap:fault name="ValidateAddressFault" use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="ValidateDriverLicense">
+			<soap:operation
+				soapAction="http://onboardingservice.soacourse.unsw.edu.au/ValidateDriverLicense" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="ValidateDriverLicenseFault">
+				<soap:fault name="ValidateDriverLicenseFault" use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="OnboadrdingValidationService">
+		<wsdl:port binding="tns:OnboadrdingValidationServiceSOAP"
+			name="OnboadrdingValidationServiceSOAP">
+			<soap:address
+				location="http://localhost:8080/SimpleServiceOne/OnboadrdingValidationService" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>
